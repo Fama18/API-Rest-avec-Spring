@@ -5,7 +5,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,12 +24,12 @@ public class PharmacieController {
 	@Autowired
 	PharmacieService pharmacieService;
 	
-	@RequestMapping("/showCreate")
+	@PostMapping("/showCreate")
 	public String ShowCreate() {
 		return "createPharmacie";
 	}
 	
-	@RequestMapping("/savePharmacie")
+	@PostMapping("/savePharmacie")
 	public String savePharmacie(@ModelAttribute("pharmacie") pharmacie pharmacie,
 				                  ModelMap modelMap) throws ParseException {
 			
@@ -35,14 +39,14 @@ public class PharmacieController {
 			 return "createPharmacie";
 		}
 	
-	@RequestMapping("/ListePharmacies")
+	@GetMapping("/ListePharmacies")
 	public String listePharmacies(ModelMap modelMap) {
 			List<pharmacie> prods = pharmacieService.getAllPharmacies();
 			modelMap.addAttribute("pharmacies", prods);
 			return "listePharmacies";
 	}
 	
-	@RequestMapping("/supprimerPharmacie")
+	@DeleteMapping("/supprimerPharmacie")
 	public String supprimerPharmacie( @RequestParam("id") Long id,
 									ModelMap modelMap) {
 			pharmacieService.deletePharmacieById(id);
@@ -51,7 +55,7 @@ public class PharmacieController {
 			return "listePharmacies";
 	}
 	
-	@RequestMapping("/modifierPharmacie")
+	@PutMapping("/modifierPharmacie")
 	public String editerPharmacie( @RequestParam("id") Long id,
 									ModelMap modelMap) {
 		pharmacie p = pharmacieService.getPharmacie(id);
@@ -60,7 +64,7 @@ public class PharmacieController {
 			
 	}
 	
-	@RequestMapping("/updatePharmacie")
+	@PutMapping("/updatePharmacie")
 	public String updatePharmacie(@ModelAttribute("pharmacie") pharmacie pharmacie,
             					ModelMap modelMap) throws ParseException {
 		
